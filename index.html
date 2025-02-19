@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>autoCloset</title>
+	<link href="https://fonts.googleapis.com/css?family=Noto Sans" rel="stylesheet" />
+	<link rel="stylesheet" type="text/css" href="styles.css">
+	<link rel='icon' href='closet.png' type='image/x-icon' />
+	<link rel="manifest" href="manifest.json">
+</head>
+<body>
+	<div class="container">
+		<div class="buttons">
+			<button onclick="getWeather('Vienna,AT')"><img class="locationIcon" src="homeLocation.png" onerror="this.style.display='none'">&emsp;Home</button>
+			<button onclick="getWeather('Wels,AT')"><img class="locationIcon" src="uniLocation.png" onerror="this.style.display='none'">&emsp;Uni</button>
+			<button onclick="getCurrentLocation()"><img class="locationIcon" src="currentLocation.png" onerror="this.style.display='none'">&emsp;Current location</button>
+		</div>
+		<div id="clothesDiv">
+			<span id="clothesTitle">
+				<img src="clothes.png" id="clothesTitleIcon" onerror="this.style.display='none'">
+				<p id="clothesTitleText"><strong>Clothing insights</strong></p><br>
+			</span>
+			<span id="clothesText">Tap a location to begin</span>
+		</div>
+		<div id="locationDiv"></div>
+		<div id="dateDiv"></div>
+		<div id="weatherTextDiv"></div>
+		<div id="currentTempDiv">
+			<span id="currentTemp"></span>
+			<img id="weatherIcon" src="">
+		</div>
+		<div id="feelsLikeTempDiv"></div>
+		<div id="minMaxTempDiv"></div>
+    </div>
+	<script src="app.js"></script>
+</body>
+</html>
