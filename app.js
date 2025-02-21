@@ -9,7 +9,7 @@ async function getWeather(location) {
 	try {
 		showLoading();
 		const locationResponse = await fetch(
-			`http://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=1&appid=${API_KEY}`
+			`https://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=1&appid=${API_KEY}`
 		);
 		
 		if (!locationResponse.ok) throw new Error('City not found');
@@ -168,7 +168,3 @@ function showError(message) {
 	document.getElementById('minMaxTempDiv').innerHTML = '';
 }
 
-if ("serviceWorker" in navigator) {
-  // register service worker
-  navigator.serviceWorker.register("service-worker.js");
-}
