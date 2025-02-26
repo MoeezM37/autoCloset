@@ -139,10 +139,13 @@ function getClothingRecommendation(temp, monthDay, weather) {
 		tops = 'Sweater, sweatshirt, and hoodie';
 		headwear = 'Beanie';
 		bottoms = 'Jeans and heavy leggings';
-	} else if (temp <= 13 && temp > 7) {
-		bottoms = 'Jeans and light leggings';
-	} else if (temp <= 17 && temo > 13) {
-		tops = 'Sweatshirt and hoodie';
+	} else {
+		if (temp <= 13) {
+			bottoms = 'Jeans and light leggings';
+		}
+		if (temp <= 17) {
+			tops = 'Sweatshirt and hoodie';
+		}
 	}
 	
 	return `<b>Headwear:</b>&emsp;${headwear}<br>
