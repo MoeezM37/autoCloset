@@ -107,31 +107,33 @@ function getClothingRecommendation(temp, monthDay, weather) {
 	if (temp <= 4 || weather == 'Snow') {
 		shoes = 'Winter boots';
 		jacket = 'Camo winter jacket';
-	} else if ([12,1,2].includes(month)) {
-		shoes = 'Red high-top sneakers';
-	} else if ([3,4,5].includes(month)) {
-		shoes = 'Blue shoes';
-	} else if ([6,7,8].includes(month)) {
-		shoes = 'Green high-top shoes';
-	} else if ([9,10,11].includes(month)) {
-		shoes = 'Grey sneakers';
-	}
-	
-	if (temp <= 16 && temp > 4) {
-		if (monthDay >= 821 && monthDay <= 1020) {
-			jacket = 'Dark green jacket';
-		} else if (monthDay >= 1021 && monthDay <= 1220) {
-			jacket = 'Blue jacket';
-		} else if (monthDay >= 1221 || monthDay <= 220) {
-			jacket = 'Flannel jacket';
-		} else if (monthDay >= 221 && monthDay <= 420) {
-			jacket = 'Beige jacket';
+	} else {
+		if ([12,1,2].includes(month)) {
+			shoes = 'Red high-top sneakers';
+		} else if ([3,4,5].includes(month)) {
+			shoes = 'Blue shoes';
+		} else if ([6,7,8].includes(month)) {
+			shoes = 'Green high-top shoes';
+		} else if ([9,10,11].includes(month)) {
+			shoes = 'Grey sneakers';
 		}
-	} else if (temp <= 24 && temp > 16) {
-		if (monthDay >= 321 && monthDay <= 920) {
-			jacket = 'Green light jacket';
-		} else if (monthDay >= 921 || monthDay <= 320) {
-			jacket = 'Blue light jacket';
+		
+		if (temp <= 16) {
+			if (monthDay >= 821 && monthDay <= 1020) {
+				jacket = 'Dark green jacket';
+			} else if (monthDay >= 1021 && monthDay <= 1220) {
+				jacket = 'Blue jacket';
+			} else if (monthDay >= 1221 || monthDay <= 220) {
+				jacket = 'Flannel jacket';
+			} else if (monthDay >= 221 && monthDay <= 420) {
+				jacket = 'Beige jacket';
+			}
+		} else if (temp <= 24) {
+			if (monthDay >= 321 && monthDay <= 920) {
+				jacket = 'Green light jacket';
+			} else if (monthDay >= 921 || monthDay <= 320) {
+				jacket = 'Blue light jacket';
+			}
 		}
 	}
 	
@@ -143,6 +145,7 @@ function getClothingRecommendation(temp, monthDay, weather) {
 		if (temp <= 13) {
 			bottoms = 'Jeans and light leggings';
 		}
+		
 		if (temp <= 17) {
 			tops = 'Sweatshirt and hoodie';
 		}
