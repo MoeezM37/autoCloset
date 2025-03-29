@@ -3,15 +3,31 @@ body {
 	background: linear-gradient(180deg, rgba(0,61,39,1) 0%, rgba(7,142,90,1) 50%, rgba(68,251,177,1) 100%);
 	color: #fff;
 	font-family: 'Noto Sans';
-	height: 100vh;
-	max-width: 75vh;
+	min-height: 100vh;
+	max-width: 88vw;
 	margin: 5vh auto;
 }
 	
 .container {
-	width: 50vh;
-	max-height: 100vh;
+	width: 67.5vw;
+	min-height: 100vh;
 	margin: 0 auto;
+	display: flex;
+	flex-direction: row;
+	gap: 2.5vw;
+}
+
+#Left,#Right {
+	width: 50%;
+}
+
+@media (max-width: 800px) {
+	.container {
+		flex-direction: column;
+	}
+	#Left, #Right {
+		width: 100%;
+	}
 }
 
 .buttons {
@@ -27,7 +43,7 @@ button {
 	padding: 0.75vh;
 	padding-left: 1.25vh;
 	border-radius: 10vh;
-	font-size: 2.25vh;
+	font-size: 2.37vh;
 	cursor: pointer;
 	transition: 0.3s;
 	text-align: left;
@@ -41,102 +57,180 @@ button:hover {
 	background: #5f947e;
 }
 
-.locationIcon {
+.icon {
 	height: 3vh;
 	background: #013d20;
-	border-radius: 10vh;
+	border-radius: 100vh;
 	padding: 0.5vh;
+	display: inline-block;
 }
 
 #clothesDiv {
 	background: #013d20;
-	padding: 2.75vh 3.5vh;
+	padding: 2.75vh;
 	border-radius: 2.75vh;
 	text-align: left;
 }
 
 #clothesText {
-	font-size: 2.25vh;
-	line-height: 1.3;
+	font-size: 2.37vh;
+	line-height: 1.63;
 	min-height: 14.5vh;
 }
 
-#clothesTitleText {
-	margin-bottom: 2vh;
+.titleText {
+	margin-bottom: 2.5vh;
 	margin: 0;
-	font-size: 3vh;
+	font-size: 2.95vh;
 	margin-left: 1.5vh;
 }
 
-#clothesTitle {
+.divTitle {
 	display: flex;
 	align-items: center;
-	margin-bottom: 1.75vh;
-}
-
-#clothesTitleIcon {
-	height: 3vh;
-	display: inline-block;
-	border-radius: 10vh;
+	margin-bottom: 2.37vh;
 }
 
 #locationDiv {
-	font-size: 2.5vh;
+	font-size: 2.88vh;
 	text-align: center;
 	color: #d3edde;
-	padding-top: 4.5vh;
 	min-height: 1vh;
 }
 
 #dateDiv {
-	font-size: 1.75vh;
+	font-size: 2.11vh;
 	text-align: center;
 	color: #d3edde;
-	padding-bottom: 7vh;
+	padding-bottom: 4.37vh;
 	min-height: 1vh;
 }
 
 #weatherTextDiv {
-	font-size: 4vh;
+	font-size: 4.37vh;
 	text-align: center;
 	margin: 0;
 }
 
 #weatherTextMain {
-	font-size: 3.25vh;
+	font-size: 3.63vh;
 	text-align: center;
 	margin: 0;
 }
 
 #weatherTextDesc {
-	font-size: 2.25vh;
+	font-size: 2.63vh;
 	text-align: center;
 	margin: 0;
 }
 
 #currentTempDiv {
-	font-size: 10.25vh;
-	text-align: center;
-	display: flex;
-	justify-content: center;
+	font-size: 10.63vh;
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
 	padding-bottom: 1vh;
+	margin: 0 auto;
+	text-align: right;
+}
+
+#currentTemp {
+	display: grid;
+	align-items: center;
 }
 
 #feelsLikeTempDiv {
-	font-size: 2.5vh;
+	font-size: 2.88vh;
 	text-align: center;
 	padding-bottom: 1vh;
 }
 
-#minMaxTempDiv {
-	font-size: 2.25vh;
-	text-align: center;
-	padding-bottom: 2.25vh;
-}
-
-#weatherIcon {
+#currentWeatherIcon {
 	height: 100%;
 	visibility: hidden;
+}
+
+#currentWeatherDiv {
+	border-radius: 2.75vh;
+	padding: 1.5vh;
+	visibility: hidden;
+	background: #013d20;
+}
+
+#forecastDiv {
+	border-radius: 2.75vh;
+	padding: 1.5vh;
+	visibility: hidden;
+	margin-top: 2.5vh;
+	background: #013d20;
+	padding: 2.75vh;
+}
+
+#forecastGridsDiv {
+	display: grid;
+	grid-template-columns: repeat(7, 1fr);
+	gap: 3.37vw;
+	overflow-x: scroll;
+	overflow-y: hidden;
+	white-space: nowrap;
+}
+
+.forecastTemp {
+	display: grid;
+	align-items: center;
+	font-size: 2.95vh;
+	text-align: center;
+	margin: 0 auto;
+}
+
+.forecastIcon {
+	display: grid;
+	align-items: center;
+	margin: 0 auto;
+}
+
+.forecastFeelsLike {
+	display: grid;
+	align-items: center;
+	font-size: 1.95vh;
+	text-align: center;
+	margin: 0.47vh auto;
+}
+
+.forecastTime {
+	display: grid;
+	align-items: center;
+	font-size: 2.02vh;
+	text-align: center;
+	margin: 0.47vh auto;
+}
+
+#forecastGridsDiv::-webkit-scrollbar {
+	height: 0;
+}
+
+#forecastGridsDiv:hover::-webkit-scrollbar {
+	height: 1.95vh;
+	background: inherit;
+}
+
+#forecastGridsDiv:hover::-webkit-scrollbar-track {
+	-webkit-box-shadow: inset 0 0 1.5vh rgba(0,0,0,0.3);
+	border-radius: 10vh;
+	background-color: #f5f5f5;
+}
+
+#forecastGridsDiv:hover::-webkit-scrollbar-thumb {
+	border-radius: 10vh;
+	-webkit-box-shadow: inset 0 0 1.37vh rgba(0,0,0,.3);
+	background-color: rgba(68,251,177,1);
+}
+
+#forecastGridsDiv:hover::-webkit-scrollbar-thumb:active {
+	background: #5f947e;
+}
+
+#forecastGridsDiv:hover::-webkit-scrollbar-thumb:hover {
+	background: #5f947e;
 }
 
 .loading,
@@ -188,6 +282,6 @@ button:hover {
 }
 
 .error {
-	font-size: 2.25vh;
+	font-size: 2.11vh;
 	text-align: center;
 }

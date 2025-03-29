@@ -1,16 +1,17 @@
 {
-	"name": "autoCloset by Cheesecoke37",
-	"short_name": "autoCloset",
-	"start_url": "index.html",
-	"scope": "./",
-	"icons": [
-		{
-			"src": "closet.png",
-			"sizes": "512x512",
-			"type": "image/png"
-		}
-	],
-	"theme_color": "#23b071",
-	"background_color": "#333",
-	"display": "standalone"
+    "name":"autoCloset by Cheesecoke37",
+    "short_name":"autoCloset",
+    "start_url":"index.html",
+    "display":"standalone",
+    "background_color":"#333",
+    "theme_color":"#23b071",
+    "scope": ".",
+    "description":"No need to decide what to wear anymore",
+    "icons":[
+    {
+    "src":"closet.png",
+    "sizes":"512x512",
+    "type":"image/png"
+    }
+  ]
 }

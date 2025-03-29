@@ -1,5 +1,17 @@
 const API_KEY = '8a2706007ccb66f6b839422a95eac453';
 
+const dateNow = new Date();
+const monthNow = dateNow.getMonth() + 1;
+const monthNameNow = dateNow.toLocaleString('default', { month: 'long' });
+const dayNow = dateNow.getDate();
+const dayNameNow = dateNow.toLocaleString('default', { weekday: 'long' });
+const yearNow = dateNow.getFullYear();
+const hourNow = dateNow.getHours();
+const AMPM = hourNow >= 12 ? 'PM' : 'AM'
+const minuteNow = String(dateNow.getMinutes()).padStart(2, '0');
+const hourAMPMNow = hourNow == 0 ? 12 : hourNow % 12;
+const monthDayNow = monthNow * 100 + dayNow;
+
 async function getWeather(location) {
 	
 	var locationData;
@@ -29,10 +41,20 @@ async function getWeather(location) {
 		
 		if (!weatherResponse.ok) throw new Error('Weather service unavailable');
 		const weatherData = await weatherResponse.json();
-		showResult(weatherData);
+		
+		const forecastResponse = await fetch(
+			`https://api.openweathermap.org/data/2.5/forecast?lat=${locationLat}&lon=${locationLon}&units=metric&cnt=6&appid=${API_KEY}`
+		);
+		
+		if (!forecastResponse.ok) throw new Error('Weather service unavailable');
+		const forecastData = await forecastResponse.json();
+		
+		showResult(weatherData, forecastData);
+		
 	} catch (error) {
 		showError(error.message);
 	}
+	
 }
 
 function getCurrentLocation() {
@@ -45,11 +67,19 @@ function getCurrentLocation() {
 	navigator.geolocation.getCurrentPosition(
 		async position => {
 			try {
+				debugger;
 				const weatherResponse = await fetch(
 					`https://api.openweathermap.org/data/2.5/weather?lat=${position.coords.latitude}&lon=${position.coords.longitude}&units=metric&appid=${API_KEY}`
 				);
 				const weatherData = await weatherResponse.json();
-				showResult(weatherData);
+				
+				const forecastResponse = await fetch(
+					`https://api.openweathermap.org/data/2.5/forecast?lat=${position.coords.latitude}&lon=${position.coords.longitude}&units=metric&cnt=6&appid=${API_KEY}`
+				);
+				const forecastData = await forecastResponse.json();
+				
+				showResult(weatherData, forecastData);
+				
 			} catch (error) {
 				showError('Failed to get weather');
 			}
@@ -58,40 +88,73 @@ function getCurrentLocation() {
 	);
 }
 
-function showResult(data) {
+function showResult(weather, forecast) {
 	
-	const currentTemp = data.main.temp;
-	const minTemp = data.main.temp_min;
-	const maxTemp = data.main.temp_max;
-	const feelsLikeTemp = data.main.feels_like;
-	const weatherTextMain = data.weather[0].main;
-	const weatherTextDesc = data.weather[0].description;
-	const weatherIcon = data.weather[0].icon;
-	const locationName = data.name;
+	const currentTemp = weather.main.temp;
+	const feelsLikeTemp = weather.main.feels_like;
+	const weatherTextMain = weather.weather[0].main;
+	const weatherTextDesc = weather.weather[0].description;
+	const weatherIcon = weather.weather[0].icon;
+	const locationName = weather.name;
 	
-	const dateNow = new Date();
-	const monthNow = dateNow.getMonth() + 1;
-	const monthNameNow = dateNow.toLocaleString('default', { month: 'long' });
-	const dayNow = dateNow.getDate();
-	const dayNameNow = dateNow.toLocaleString('default', { weekday: 'long' });
-	const yearNow = dateNow.getFullYear();
-	const hourNow = dateNow.getHours();
-	const AMPM = hourNow >= 12 ? 'PM' : 'AM'
-	const minuteNow = String(dateNow.getMinutes()).padStart(2, '0');
-	const hourAMPMNow = hourNow == 0 ? 12 : hourNow % 12;
-	const monthDayNow = monthNow * 100 + dayNow;
+	const forecastTemp = [];
+	const forecastIcon = [];
+	const forecastFeelsLike = [];
+	const forecastTime = [];
+	var clothesTemp = 0;
 	
-	const clothes = getClothingRecommendation(feelsLikeTemp, monthDayNow, weatherTextMain);
+	for (let i = 0; i < 6; i++) {
+		forecastTemp.push(forecast.list[i].main.temp);
+		forecastIcon.push(forecast.list[i].weather[0].icon);
+		forecastFeelsLike.push(forecast.list[i].main.feels_like);
+		forecastTime.push(forecast.list[i].dt_txt);
+		
+		clothesTemp = clothesTemp + forecastFeelsLike[i];
+	}
 	
+	clothesTemp = clothesTemp / 6;
+	
+	const clothes = getClothingRecommendation(clothesTemp, monthDayNow, weatherTextMain);
+	
+	document.getElementById('currentWeatherDiv').style.visibility = "visible";
 	document.getElementById('locationDiv').innerHTML = `${locationName}`;
 	document.getElementById('dateDiv').innerHTML = `${dayNameNow}, ${monthNameNow} ${dayNow}, ${yearNow}  &emsp;${hourAMPMNow}:${minuteNow} ${AMPM}`;
 	document.getElementById('weatherTextDiv').innerHTML = `<p id="weatherTextMain">${weatherTextMain}</p><p id="weatherTextDesc">${weatherTextDesc}</p>`;
 	document.getElementById('currentTemp').innerHTML = `<b>${currentTemp.toFixed(1)}</b>`;
-	document.getElementById('weatherIcon').src = "https://openweathermap.org/img/wn/" + weatherIcon + "@2x.png";
-	document.getElementById('weatherIcon').style.visibility = "visible";
+	document.getElementById('currentWeatherIcon').src = "https://openweathermap.org/img/wn/" + weatherIcon + "@2x.png";
+	document.getElementById('currentWeatherIcon').style.visibility = "visible";
 	document.getElementById('feelsLikeTempDiv').innerHTML = `Feels like ${feelsLikeTemp.toFixed(1)}&deg`;
-	document.getElementById('minMaxTempDiv').innerHTML = `<b>High ${maxTemp.toFixed(1)}&deg&ensp;&middot&ensp;Low ${minTemp.toFixed(1)}&deg</b>`;
+	
 	document.getElementById('clothesText').innerHTML = `${clothes}`;
+	
+	document.getElementById('forecastDiv').style.visibility = "visible";
+	document.getElementById('forecastTempNow').innerHTML = `${currentTemp.toFixed(1)}&deg`;
+	document.getElementById('forecastIconNow').src = "https://openweathermap.org/img/wn/" + weatherIcon + ".png";
+	document.getElementById('forecastFeelsLikeNow').innerHTML = `Feels like ${feelsLikeTemp.toFixed(1)}&deg`;
+	document.getElementById('forecastTemp3hr').innerHTML = `${forecastTemp[0].toFixed(1)}&deg`;
+	document.getElementById('forecastIcon3hr').src = "https://openweathermap.org/img/wn/" + forecastIcon[0] + ".png";
+	document.getElementById('forecastFeelsLike3hr').innerHTML = `Feels like ${forecastFeelsLike[0].toFixed(1)}&deg`;
+	document.getElementById('forecastTime3hr').innerHTML = `${new Date(forecastTime[0]).toLocaleString('en-US', { hour: 'numeric', hour12: true})}`;
+	document.getElementById('forecastTemp6hr').innerHTML = `${forecastTemp[1].toFixed(1)}&deg`;
+	document.getElementById('forecastIcon6hr').src = "https://openweathermap.org/img/wn/" + forecastIcon[1] + ".png";
+	document.getElementById('forecastFeelsLike6hr').innerHTML = `Feels like ${forecastFeelsLike[1].toFixed(1)}&deg`;
+	document.getElementById('forecastTime6hr').innerHTML = `${new Date(forecastTime[1]).toLocaleString('en-US', { hour: 'numeric', hour12: true})}`;
+	document.getElementById('forecastTemp9hr').innerHTML = `${forecastTemp[2].toFixed(1)}&deg`;
+	document.getElementById('forecastIcon9hr').src = "https://openweathermap.org/img/wn/" + forecastIcon[2] + ".png";
+	document.getElementById('forecastFeelsLike9hr').innerHTML = `Feels like ${forecastFeelsLike[2].toFixed(1)}&deg`;
+	document.getElementById('forecastTime9hr').innerHTML = `${new Date(forecastTime[2]).toLocaleString('en-US', { hour: 'numeric', hour12: true})}`;
+	document.getElementById('forecastTemp12hr').innerHTML = `${forecastTemp[3].toFixed(1)}&deg`;
+	document.getElementById('forecastIcon12hr').src = "https://openweathermap.org/img/wn/" + forecastIcon[3] + ".png";
+	document.getElementById('forecastFeelsLike12hr').innerHTML = `Feels like ${forecastFeelsLike[3].toFixed(1)}&deg`;
+	document.getElementById('forecastTime12hr').innerHTML = `${new Date(forecastTime[3]).toLocaleString('en-US', { hour: 'numeric', hour12: true})}`;
+	document.getElementById('forecastTemp15hr').innerHTML = `${forecastTemp[4].toFixed(1)}&deg`;
+	document.getElementById('forecastIcon15hr').src = "https://openweathermap.org/img/wn/" + forecastIcon[4] + ".png";
+	document.getElementById('forecastFeelsLike15hr').innerHTML = `Feels like ${forecastFeelsLike[4].toFixed(1)}&deg`;
+	document.getElementById('forecastTime15hr').innerHTML = `${new Date(forecastTime[4]).toLocaleString('en-US', { hour: 'numeric', hour12: true})}`;
+	document.getElementById('forecastTemp18hr').innerHTML = `${forecastTemp[5].toFixed(1)}&deg`;
+	document.getElementById('forecastIcon18hr').src = "https://openweathermap.org/img/wn/" + forecastIcon[5] + ".png";
+	document.getElementById('forecastFeelsLike18hr').innerHTML = `Feels like ${forecastFeelsLike[5].toFixed(1)}&deg`;
+	document.getElementById('forecastTime18hr').innerHTML = `${new Date(forecastTime[5]).toLocaleString('en-US', { hour: 'numeric', hour12: true})}`;
 }
 
 function getClothingRecommendation(temp, monthDay, weather) {
@@ -99,12 +162,12 @@ function getClothingRecommendation(temp, monthDay, weather) {
 	var shoes;
 	var jacket = 'None';
 	var bottoms = 'Jeans';
-	var tops = 'T-shirt'; 
+	var tops = 'T-shirt and shirt'; 
 	var headwear = 'Cap';
 	
 	const month = Math.floor(monthDay / 100)
 	
-	if (temp <= 4 || weather == 'Snow') {
+	if (temp < 5 || weather == 'Snow') {
 		shoes = 'Winter boots';
 		jacket = 'Camo winter jacket';
 	} else {
@@ -118,7 +181,7 @@ function getClothingRecommendation(temp, monthDay, weather) {
 			shoes = 'Grey sneakers';
 		}
 		
-		if (temp <= 16) {
+		if (temp < 18) {
 			if (monthDay >= 821 && monthDay <= 1020) {
 				jacket = 'Dark green jacket';
 			} else if (monthDay >= 1021 && monthDay <= 1220) {
@@ -128,7 +191,7 @@ function getClothingRecommendation(temp, monthDay, weather) {
 			} else if (monthDay >= 221 && monthDay <= 420) {
 				jacket = 'Beige jacket';
 			}
-		} else if (temp <= 24) {
+		} else if (temp < 25) {
 			if (monthDay >= 321 && monthDay <= 920) {
 				jacket = 'Green light jacket';
 			} else if (monthDay >= 921 || monthDay <= 320) {
@@ -137,25 +200,25 @@ function getClothingRecommendation(temp, monthDay, weather) {
 		}
 	}
 	
-	if (temp <= 7) {
-		tops = 'Sweater, sweatshirt, and hoodie';
+	if (temp < 13) {
 		headwear = 'Beanie';
-		bottoms = 'Jeans and heavy leggings';
-	} else {
-		if (temp <= 13) {
-			bottoms = 'Jeans and light leggings';
-		}
-		
-		if (temp <= 17) {
-			tops = 'Sweatshirt and hoodie';
-		}
 	}
 	
-	return `<b>Headwear:</b>&emsp;${headwear}<br>
-			<b>Top:</b>&emsp;${tops}<br>
-			<b>Jacket:</b>&emsp;${jacket}<br>
-			<b>Bottoms:</b>&emsp;${bottoms}<br>
-			<b>Shoes:</b>&emsp;${shoes}`;
+	if (temp < 10) {
+		tops = 'Sweater, sweatshirt, and hoodie';
+		bottoms = 'Jeans and heavy leggings';
+	} else if (temp < 20) {
+		tops = 'Sweatshirt and hoodie';
+		bottoms = 'Jeans and light leggings';
+	}
+	
+	return `<table>
+			<tr><td><i>Headwear:</i>&emsp;</td><td>${headwear}</td></tr>
+			<tr><td><i>Top:</i>&emsp;</td><td>${tops}</td></tr>
+			<tr><td><i>Jacket:</i>&emsp;</td><td>${jacket}</td></tr>
+			<tr><td><i>Bottoms:</i>&emsp;</td><td>${bottoms}</td></tr>
+			<tr><td><i>Shoes:</i>&emsp;</td><td>${shoes}</td></tr>
+			</table>`;
 }
 
 function showLoading() {
@@ -173,4 +236,3 @@ function showError(message) {
 	document.getElementById('feelsLikeTempDiv').innerHTML = '';
 	document.getElementById('minMaxTempDiv').innerHTML = '';
 }
-
