@@ -253,8 +253,8 @@ button:hover {
 	position: absolute;
 	width: 80%;
 	height: 80%;
-	margin: 1.25vmin;
-	border: 1.25vmin solid currentColor;
+	margin: 1.25vh;
+	border: 1.25vh solid currentColor;
 	border-radius: 50%;
 	animation: loading 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
 	border-color: currentColor transparent transparent transparent;
