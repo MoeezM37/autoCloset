@@ -5,7 +5,7 @@ body {
 	font-family: 'Noto Sans';
 	min-height: 100vh;
 	max-width: 88vw;
-	margin: 5vmin auto;
+	margin: 5vh auto;
 }
 	
 .container {
@@ -33,17 +33,17 @@ body {
 .buttons {
 	display: grid;
 	grid-template-rows: repeat(3, 1fr);
-	gap: 1.5vmin;
-	margin-bottom: 5vmin;
+	gap: 1.5vh;
+	margin-bottom: 5vh;
 }
 
 button {
 	background: #02733c;
 	border: none;
 	padding: 0.75vmin;
-	padding-left: 1.25vmin;
+	padding-left: 1.25vw;
 	border-radius: 10vmax;
-	font-size: 2.37vmin;
+	font-size: 2.37vh;
 	cursor: pointer;
 	transition: 0.3s;
 	text-align: left;
@@ -73,62 +73,62 @@ button:hover {
 }
 
 #clothesText {
-	font-size: 2.37vmin;
+	font-size: 2.37vh;
 	line-height: 1.63;
 	min-height: 14.5vh;
 }
 
 .titleText {
-	margin-bottom: 2.5vmin;
+	margin-bottom: 2.5vh;
 	margin: 0;
-	font-size: 2.95vmin;
-	margin-left: 1.5vmin;
+	font-size: 2.95vh;
+	margin-left: 1.5vw;
 }
 
 .divTitle {
 	display: flex;
 	align-items: center;
-	margin-bottom: 2.37vmin;
+	margin-bottom: 2.37vh;
 }
 
 #locationDiv {
-	font-size: 2.88vmin;
+	font-size: 2.88vh;
 	text-align: center;
 	color: #d3edde;
 	min-height: 1vh;
 }
 
 #dateDiv {
-	font-size: 2.11vmin;
+	font-size: 2.11vh;
 	text-align: center;
 	color: #d3edde;
-	padding-bottom: 4.37vmin;
+	padding-bottom: 4.37vh;
 	min-height: 1vh;
 }
 
 #weatherTextDiv {
-	font-size: 4.37vmin;
+	font-size: 4.37vh;
 	text-align: center;
 	margin: 0;
 }
 
 #weatherTextMain {
-	font-size: 3.63vmin;
+	font-size: 3.63vh;
 	text-align: center;
 	margin: 0;
 }
 
 #weatherTextDesc {
-	font-size: 2.63vmin;
+	font-size: 2.63vh;
 	text-align: center;
 	margin: 0;
 }
 
 #currentTempDiv {
-	font-size: 10.63vmin;
+	font-size: 10.63vh;
 	display: grid;
 	grid-template-columns: repeat(2, 1fr);
-	padding-bottom: 1vmin;
+	padding-bottom: 1vh;
 	margin: 0 auto;
 	text-align: right;
 }
@@ -139,9 +139,9 @@ button:hover {
 }
 
 #feelsLikeTempDiv {
-	font-size: 2.88vmin;
+	font-size: 2.88vh;
 	text-align: center;
-	padding-bottom: 1vmin;
+	padding-bottom: 1vh;
 }
 
 #currentWeatherIcon {
@@ -160,7 +160,7 @@ button:hover {
 	border-radius: 2.75vmax;
 	padding: 1.5vmin;
 	visibility: hidden;
-	margin-top: 2.5vmin;
+	margin-top: 2.5vh;
 	background: #013d20;
 	padding: 2.75vmin;
 }
@@ -168,7 +168,7 @@ button:hover {
 #forecastGridsDiv {
 	display: grid;
 	grid-template-columns: repeat(7, 1fr);
-	gap: 3.37vmin;
+	gap: 3.37vw;
 	overflow-x: scroll;
 	overflow-y: hidden;
 	white-space: nowrap;
@@ -177,7 +177,7 @@ button:hover {
 .forecastTemp {
 	display: grid;
 	align-items: center;
-	font-size: 2.95vmin;
+	font-size: 2.95vh;
 	text-align: center;
 	margin: 0 auto;
 }
@@ -191,17 +191,17 @@ button:hover {
 .forecastFeelsLike {
 	display: grid;
 	align-items: center;
-	font-size: 1.95vmin;
+	font-size: 1.95vh;
 	text-align: center;
-	margin: 0.47vmin auto;
+	margin: 0.47vh auto;
 }
 
 .forecastTime {
 	display: grid;
 	align-items: center;
-	font-size: 2.02vmin;
+	font-size: 2.02vh;
 	text-align: center;
-	margin: 0.47vmin auto;
+	margin: 0.47vh auto;
 }
 
 #forecastGridsDiv::-webkit-scrollbar {
@@ -242,8 +242,8 @@ button:hover {
 	color: #fff;
 	display: block;
 	position: relative;
-	width: 14.5vmin;
-	height: 14.5vmin;
+	width: 14.5vw;
+	height: 14.5vh;
 	margin: 0 auto;
 }
 
@@ -282,6 +282,6 @@ button:hover {
 }
 
 .error {
-	font-size: 2.11vmin;
+	font-size: 2.11vh;
 	text-align: center;
 }
