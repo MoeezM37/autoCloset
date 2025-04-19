@@ -4,17 +4,17 @@ body {
 	color: #fff;
 	font-family: 'Noto Sans';
 	min-height: 100vh;
-	max-width: 88vw;
+	max-width: 88vh;
 	margin: 5vh auto;
 }
 	
 .container {
-	width: 67.5vw;
+	width: 67.5vh;
 	min-height: 100vh;
 	margin: 0 auto;
 	display: flex;
 	flex-direction: row;
-	gap: 2.5vmin;
+	gap: 2.5vh;
 }
 
 #Left,#Right {
@@ -40,9 +40,9 @@ body {
 button {
 	background: #02733c;
 	border: none;
-	padding: 0.75vmin;
-	padding-left: 1.25vw;
-	border-radius: 10vmax;
+	padding: 0.75vh;
+	padding-left: 1.25vh;
+	border-radius: 10vh;
 	font-size: 2.37vh;
 	cursor: pointer;
 	transition: 0.3s;
@@ -60,15 +60,15 @@ button:hover {
 .icon {
 	height: 3vh;
 	background: #013d20;
-	border-radius: 100vmax;
-	padding: 0.5vmin;
+	border-radius: 100vh;
+	padding: 0.5vh;
 	display: inline-block;
 }
 
 #clothesDiv {
 	background: #013d20;
-	padding: 2.75vmin;
-	border-radius: 2.75vmax;
+	padding: 2.75vh;
+	border-radius: 2.75vh;
 	text-align: left;
 }
 
@@ -82,7 +82,7 @@ button:hover {
 	margin-bottom: 2.5vh;
 	margin: 0;
 	font-size: 2.95vh;
-	margin-left: 1.5vw;
+	margin-left: 1.5vh;
 }
 
 .divTitle {
@@ -150,25 +150,25 @@ button:hover {
 }
 
 #currentWeatherDiv {
-	border-radius: 2.75vmax;
-	padding: 1.5vmin;
+	border-radius: 2.75vh;
+	padding: 1.5vh;
 	visibility: hidden;
 	background: #013d20;
 }
 
 #forecastDiv {
-	border-radius: 2.75vmax;
-	padding: 1.5vmin;
+	border-radius: 2.75vh;
+	padding: 1.5vh;
 	visibility: hidden;
 	margin-top: 2.5vh;
 	background: #013d20;
-	padding: 2.75vmin;
+	padding: 2.75vh;
 }
 
 #forecastGridsDiv {
 	display: grid;
 	grid-template-columns: repeat(7, 1fr);
-	gap: 3.37vw;
+	gap: 3.37vh;
 	overflow-x: scroll;
 	overflow-y: hidden;
 	white-space: nowrap;
@@ -215,12 +215,12 @@ button:hover {
 
 #forecastGridsDiv:hover::-webkit-scrollbar-track {
 	-webkit-box-shadow: inset 0 0 1.5vh rgba(0,0,0,0.3);
-	border-radius: 10vmax;
+	border-radius: 10vh;
 	background-color: #f5f5f5;
 }
 
 #forecastGridsDiv:hover::-webkit-scrollbar-thumb {
-	border-radius: 10vmax;
+	border-radius: 10vh;
 	-webkit-box-shadow: inset 0 0 1.37vh rgba(0,0,0,.3);
 	background-color: rgba(68,251,177,1);
 }
