@@ -125,7 +125,7 @@ button:hover {
 }
 
 #currentTempDiv {
-	font-size: 50%;
+	font-size: 10.63vh;
 	display: grid;
 	grid-template-columns: repeat(2, 1fr);
 	padding-bottom: 1vh;
