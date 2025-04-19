@@ -4,12 +4,12 @@ body {
 	color: #fff;
 	font-family: 'Noto Sans';
 	min-height: 100vh;
-	max-width: 88vh;
+	max-width: 88vw;
 	margin: 5vh auto;
 }
 	
 .container {
-	width: 67.5vh;
+	width: 67.5vw;
 	min-height: 100vh;
 	margin: 0 auto;
 	display: flex;
