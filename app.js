@@ -1,3 +1,5 @@
+debugger;
+
 const API_KEY = '8a2706007ccb66f6b839422a95eac453';
 
 const dateNow = new Date();
@@ -102,8 +104,9 @@ function showResult(weather, forecast) {
 	const forecastFeelsLike = [];
 	const forecastTime = [];
 	var clothesTemp = 0;
+	var forecastCount = Math.floor((24 - hourNow) / 3);
 	
-	for (let i = 0; i < 6; i++) {
+	for (let i = 0; i < forecastCount; i++) {
 		forecastTemp.push(forecast.list[i].main.temp);
 		forecastIcon.push(forecast.list[i].weather[0].icon);
 		forecastFeelsLike.push(forecast.list[i].main.feels_like);
@@ -112,13 +115,13 @@ function showResult(weather, forecast) {
 		clothesTemp = clothesTemp + forecastFeelsLike[i];
 	}
 	
-	clothesTemp = clothesTemp / 6;
+	clothesTemp = clothesTemp / forecastCount;
 	
 	const clothes = getClothingRecommendation(clothesTemp, monthDayNow, weatherTextMain);
 	
 	document.getElementById('currentWeatherDiv').style.visibility = "visible";
 	document.getElementById('locationDiv').innerHTML = `${locationName}`;
-	document.getElementById('dateDiv').innerHTML = `${dayNameNow}, ${monthNameNow} ${dayNow}, ${yearNow}  &emsp;${hourAMPMNow}:${minuteNow} ${AMPM}`;
+	document.getElementById('dateDiv').innerHTML = `${dayNameNow}, ${monthNameNow} ${dayNow}, ${yearNow}<br>${hourAMPMNow}:${minuteNow} ${AMPM}`;
 	document.getElementById('weatherTextDiv').innerHTML = `<p id="weatherTextMain">${weatherTextMain}</p><p id="weatherTextDesc">${weatherTextDesc}</p>`;
 	document.getElementById('currentTemp').innerHTML = `<b>${currentTemp.toFixed(1)}</b>`;
 	document.getElementById('currentWeatherIcon').src = "https://openweathermap.org/img/wn/" + weatherIcon + "@2x.png";
@@ -191,7 +194,7 @@ function getClothingRecommendation(temp, monthDay, weather) {
 			} else if (monthDay >= 221 && monthDay <= 420) {
 				jacket = 'Beige jacket';
 			}
-		} else if (temp < 25) {
+		} else if (temp < 21) {
 			if (monthDay >= 321 && monthDay <= 920) {
 				jacket = 'Green light jacket';
 			} else if (monthDay >= 921 || monthDay <= 320) {
