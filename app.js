@@ -136,7 +136,7 @@ function showResult(weather, forecast) {
 	var forecastContent = [
 		[
 			`${currentTemp.toFixed(1)}&deg`, 
-			<img src="https://openweathermap.org/img/wn/" + weatherIcon + ".png"></img>,
+			`<img src="https://openweathermap.org/img/wn/" + ${weatherIcon} + ".png"></img>`,
 			`Feels like ${feelsLikeTemp.toFixed(1)}&deg`,
 			Now
 		]
@@ -144,7 +144,7 @@ function showResult(weather, forecast) {
 	for (let j = 0; j < forecastCount; j++) {
 		forecastContent.push([
 			`${forecastTemp[j].toFixed(1)}&deg`,
-			<img src="https://openweathermap.org/img/wn/" + forecastIcon[j] + ".png"></img>,
+			`<img src="https://openweathermap.org/img/wn/" + ${forecastIcon[j]} + ".png"></img>`,
 			`Feels like ${forecastFeelsLike[j].toFixed(1)}&deg`,
 			`${new Date(forecastTime[j]).toLocaleString('en-US', { hour: 'numeric', hour12: true})}`
 		]);
