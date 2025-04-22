@@ -185,13 +185,13 @@ function getClothingRecommendation(temp, monthDay, weather) {
 		}
 		
 		if (temp < 18) {
-			if (monthDay >= 821 && monthDay <= 1020) {
+			if (monthDay >= 806 && monthDay <= 1013) {
 				jacket = 'Dark green jacket';
-			} else if (monthDay >= 1021 && monthDay <= 1220) {
+			} else if (monthDay >= 1014 && monthDay <= 1220) {
 				jacket = 'Blue jacket';
-			} else if (monthDay >= 1221 || monthDay <= 220) {
+			} else if (monthDay >= 1221 || monthDay <= 226) {
 				jacket = 'Flannel jacket';
-			} else if (monthDay >= 221 && monthDay <= 420) {
+			} else if (monthDay >= 227 && monthDay <= 506) {
 				jacket = 'Beige jacket';
 			}
 		} else if (temp < 21) {
