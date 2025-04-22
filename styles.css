@@ -166,42 +166,21 @@ button:hover {
 }
 
 #forecastGridsDiv {
-	display: grid;
-	grid-template-columns: repeat(7, 1fr);
+	display: flex;
+	overflow-x: auto;
 	gap: 3.37vh;
-	overflow-x: scroll;
-	overflow-y: hidden;
-	white-space: nowrap;
 }
 
-.forecastTemp {
-	display: grid;
-	align-items: center;
-	font-size: 2.95vh;
-	text-align: center;
-	margin: 0 auto;
+.forecastGrid {
+	display: flex;
+	flex-direction: column;
+	flex: 0 0 auto;
 }
 
-.forecastIcon {
-	display: grid;
-	align-items: center;
-	margin: 0 auto;
-}
-
-.forecastFeelsLike {
-	display: grid;
-	align-items: center;
-	font-size: 1.95vh;
-	text-align: center;
+.forecastGrid div {
 	margin: 0.47vh auto;
-}
-
-.forecastTime {
-	display: grid;
-	align-items: center;
-	font-size: 2.02vh;
 	text-align: center;
-	margin: 0.47vh auto;
+	align-items: center;
 }
 
 #forecastGridsDiv::-webkit-scrollbar {
