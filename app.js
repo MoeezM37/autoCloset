@@ -138,7 +138,7 @@ function showResult(weather, forecast) {
 			`${currentTemp.toFixed(1)}&deg`, 
 			`<img src="https://openweathermap.org/img/wn/" + ${weatherIcon} + ".png"></img>`,
 			`Feels like ${feelsLikeTemp.toFixed(1)}&deg`,
-			Now
+			'Now'
 		]
 	];
 	for (let j = 0; j < forecastCount; j++) {
