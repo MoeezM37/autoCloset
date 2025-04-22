@@ -131,33 +131,26 @@ function showResult(weather, forecast) {
 	document.getElementById('clothesText').innerHTML = `${clothes}`;
 	
 	document.getElementById('forecastDiv').style.visibility = "visible";
-	document.getElementById('forecastTempNow').innerHTML = `${currentTemp.toFixed(1)}&deg`;
-	document.getElementById('forecastIconNow').src = "https://openweathermap.org/img/wn/" + weatherIcon + ".png";
-	document.getElementById('forecastFeelsLikeNow').innerHTML = `Feels like ${feelsLikeTemp.toFixed(1)}&deg`;
-	document.getElementById('forecastTemp3hr').innerHTML = `${forecastTemp[0].toFixed(1)}&deg`;
-	document.getElementById('forecastIcon3hr').src = "https://openweathermap.org/img/wn/" + forecastIcon[0] + ".png";
-	document.getElementById('forecastFeelsLike3hr').innerHTML = `Feels like ${forecastFeelsLike[0].toFixed(1)}&deg`;
-	document.getElementById('forecastTime3hr').innerHTML = `${new Date(forecastTime[0]).toLocaleString('en-US', { hour: 'numeric', hour12: true})}`;
-	document.getElementById('forecastTemp6hr').innerHTML = `${forecastTemp[1].toFixed(1)}&deg`;
-	document.getElementById('forecastIcon6hr').src = "https://openweathermap.org/img/wn/" + forecastIcon[1] + ".png";
-	document.getElementById('forecastFeelsLike6hr').innerHTML = `Feels like ${forecastFeelsLike[1].toFixed(1)}&deg`;
-	document.getElementById('forecastTime6hr').innerHTML = `${new Date(forecastTime[1]).toLocaleString('en-US', { hour: 'numeric', hour12: true})}`;
-	document.getElementById('forecastTemp9hr').innerHTML = `${forecastTemp[2].toFixed(1)}&deg`;
-	document.getElementById('forecastIcon9hr').src = "https://openweathermap.org/img/wn/" + forecastIcon[2] + ".png";
-	document.getElementById('forecastFeelsLike9hr').innerHTML = `Feels like ${forecastFeelsLike[2].toFixed(1)}&deg`;
-	document.getElementById('forecastTime9hr').innerHTML = `${new Date(forecastTime[2]).toLocaleString('en-US', { hour: 'numeric', hour12: true})}`;
-	document.getElementById('forecastTemp12hr').innerHTML = `${forecastTemp[3].toFixed(1)}&deg`;
-	document.getElementById('forecastIcon12hr').src = "https://openweathermap.org/img/wn/" + forecastIcon[3] + ".png";
-	document.getElementById('forecastFeelsLike12hr').innerHTML = `Feels like ${forecastFeelsLike[3].toFixed(1)}&deg`;
-	document.getElementById('forecastTime12hr').innerHTML = `${new Date(forecastTime[3]).toLocaleString('en-US', { hour: 'numeric', hour12: true})}`;
-	document.getElementById('forecastTemp15hr').innerHTML = `${forecastTemp[4].toFixed(1)}&deg`;
-	document.getElementById('forecastIcon15hr').src = "https://openweathermap.org/img/wn/" + forecastIcon[4] + ".png";
-	document.getElementById('forecastFeelsLike15hr').innerHTML = `Feels like ${forecastFeelsLike[4].toFixed(1)}&deg`;
-	document.getElementById('forecastTime15hr').innerHTML = `${new Date(forecastTime[4]).toLocaleString('en-US', { hour: 'numeric', hour12: true})}`;
-	document.getElementById('forecastTemp18hr').innerHTML = `${forecastTemp[5].toFixed(1)}&deg`;
-	document.getElementById('forecastIcon18hr').src = "https://openweathermap.org/img/wn/" + forecastIcon[5] + ".png";
-	document.getElementById('forecastFeelsLike18hr').innerHTML = `Feels like ${forecastFeelsLike[5].toFixed(1)}&deg`;
-	document.getElementById('forecastTime18hr').innerHTML = `${new Date(forecastTime[5]).toLocaleString('en-US', { hour: 'numeric', hour12: true})}`;
+	
+	const forecastContainer = document.getElementById('forecastGridsDiv');
+	var forecastContent = [
+		[
+			`${currentTemp.toFixed(1)}&deg`, 
+			<img src="https://openweathermap.org/img/wn/" + weatherIcon + ".png"></img>,
+			`Feels like ${feelsLikeTemp.toFixed(1)}&deg`,
+			Now
+		]
+	];
+	for (let j = 0; j < forecastCount; j++) {
+		forecastContent.push([
+			`${forecastTemp[j].toFixed(1)}&deg`,
+			<img src="https://openweathermap.org/img/wn/" + forecastIcon[j] + ".png"></img>,
+			`Feels like ${forecastFeelsLike[j].toFixed(1)}&deg`,
+			`${new Date(forecastTime[j]).toLocaleString('en-US', { hour: 'numeric', hour12: true})}`
+		]);
+	}
+	
+	createForecastGrid(forecastContent);
 }
 
 function getClothingRecommendation(temp, monthDay, weather) {
@@ -222,6 +215,23 @@ function getClothingRecommendation(temp, monthDay, weather) {
 			<tr><td><i>Bottoms:</i>&emsp;</td><td>${bottoms}</td></tr>
 			<tr><td><i>Shoes:</i>&emsp;</td><td>${shoes}</td></tr>
 			</table>`;
+}
+
+function createForecastGrid(contentArray) {
+	forecastContainer.innerHTML = '';
+	
+	contentArray.forEach((columnItems) => {
+		const column = document.createElement('div');
+		column.className = 'forecastGrid';
+		
+		columnItems.forEach(itemHTML => {
+			const item = document.createElement('div');
+			item.innerHTML = itemHTML;
+			column.appendChild(item);
+		});
+		
+		forecastContainer.appendChild(column);
+	});
 }
 
 function showLoading() {
