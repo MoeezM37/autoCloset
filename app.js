@@ -132,11 +132,10 @@ function showResult(weather, forecast) {
 	
 	document.getElementById('forecastDiv').style.visibility = "visible";
 	
-	const forecastContainer = document.getElementById('forecastGridsDiv');
 	var forecastContent = [
 		[
 			`${currentTemp.toFixed(1)}&deg`, 
-			`<img src="https://openweathermap.org/img/wn/" + ${weatherIcon} + ".png"></img>`,
+			`<img src="https://openweathermap.org/img/wn/${weatherIcon}.png"></img>`,
 			`Feels like ${feelsLikeTemp.toFixed(1)}&deg`,
 			'Now'
 		]
@@ -144,7 +143,7 @@ function showResult(weather, forecast) {
 	for (let j = 0; j < forecastCount; j++) {
 		forecastContent.push([
 			`${forecastTemp[j].toFixed(1)}&deg`,
-			`<img src="https://openweathermap.org/img/wn/" + ${forecastIcon[j]} + ".png"></img>`,
+			`<img src="https://openweathermap.org/img/wn/${forecastIcon[j]}.png"></img>`,
 			`Feels like ${forecastFeelsLike[j].toFixed(1)}&deg`,
 			`${new Date(forecastTime[j]).toLocaleString('en-US', { hour: 'numeric', hour12: true})}`
 		]);
@@ -177,17 +176,17 @@ function getClothingRecommendation(temp, monthDay, weather) {
 			shoes = 'Grey sneakers';
 		}
 		
-		if (temp < 18) {
-			if (monthDay >= 806 && monthDay <= 1013) {
+		if (temp < 16) {
+			if (monthDay >= 622 && monthDay <= 1013) {
 				jacket = 'Dark green jacket';
 			} else if (monthDay >= 1014 && monthDay <= 1220) {
 				jacket = 'Blue jacket';
 			} else if (monthDay >= 1221 || monthDay <= 226) {
 				jacket = 'Flannel jacket';
-			} else if (monthDay >= 227 && monthDay <= 506) {
+			} else if (monthDay >= 227 && monthDay <= 621) {
 				jacket = 'Beige jacket';
 			}
-		} else if (temp < 21) {
+		} else if (temp < 20) {
 			if (monthDay >= 321 && monthDay <= 920) {
 				jacket = 'Green light jacket';
 			} else if (monthDay >= 921 || monthDay <= 320) {
@@ -196,28 +195,29 @@ function getClothingRecommendation(temp, monthDay, weather) {
 		}
 	}
 	
-	if (temp < 13) {
+	if (temp < 9) {
 		headwear = 'Beanie';
 	}
 	
-	if (temp < 10) {
+	if (temp < 11) {
 		tops = 'Sweater, sweatshirt, and hoodie';
 		bottoms = 'Jeans and heavy leggings';
-	} else if (temp < 20) {
+	} else if (temp < 18) {
 		tops = 'Sweatshirt and hoodie';
 		bottoms = 'Jeans and light leggings';
 	}
 	
 	return `<table>
-			<tr><td><i>Headwear:</i>&emsp;</td><td>${headwear}</td></tr>
-			<tr><td><i>Top:</i>&emsp;</td><td>${tops}</td></tr>
-			<tr><td><i>Jacket:</i>&emsp;</td><td>${jacket}</td></tr>
-			<tr><td><i>Bottoms:</i>&emsp;</td><td>${bottoms}</td></tr>
-			<tr><td><i>Shoes:</i>&emsp;</td><td>${shoes}</td></tr>
+			<tr><td class="tdRight tdBottom"><i>Headwear:</i>&emsp;</td><td class="tdBottom">${headwear}</td></tr>
+			<tr><td class="tdRight tdBottom"><i>Top:</i>&emsp;</td><td class="tdBottom">${tops}</td></tr>
+			<tr><td class="tdRight tdBottom"><i>Jacket:</i>&emsp;</td><td class="tdBottom">${jacket}</td></tr>
+			<tr><td class="tdRight tdBottom"><i>Bottoms:</i>&emsp;</td><td class="tdBottom">${bottoms}</td></tr>
+			<tr><td class="tdRight"><i>Shoes:</i>&emsp;</td><td>${shoes}</td></tr>
 			</table>`;
 }
 
 function createForecastGrid(contentArray) {
+	const forecastContainer = document.getElementById('forecastGridsDiv');
 	forecastContainer.innerHTML = '';
 	
 	contentArray.forEach((columnItems) => {
@@ -240,12 +240,7 @@ function showLoading() {
 
 function showError(message) {
 	document.getElementById('clothesText').innerHTML = `<div class="error">${message}</div>`;
-	document.getElementById('locationDiv').innerHTML = '';
-	document.getElementById('dateDiv').innerHTML = '';
-	document.getElementById('weatherTextDiv').innerHTML = '';
-	document.getElementById('currentTemp').innerHTML = '';
-	document.getElementById('weatherIcon').src = '';
-	document.getElementById('weatherIcon').style.visibility = "hidden";
-	document.getElementById('feelsLikeTempDiv').innerHTML = '';
-	document.getElementById('minMaxTempDiv').innerHTML = '';
+	document.getElementById('currentWeatherDiv').style.visibility = "hidden";
+	document.getElementById('forecastDiv').style.visibility = "hidden";
+	document.getElementById('currentWeatherIcon').style.visibility = "hidden";
 }

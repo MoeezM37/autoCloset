@@ -76,6 +76,19 @@ button:hover {
 	font-size: 2.37vh;
 	line-height: 1.63;
 	min-height: 14.5vh;
+	vertical-align: top;
+}
+
+td {
+	padding: 1vh;
+}
+
+.tdRight {
+	border-right: thick solid white;
+}
+
+.tdBottom {
+	border-bottom: thick solid white;
 }
 
 .titleText {
