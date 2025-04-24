@@ -104,7 +104,7 @@ function showResult(weather, forecast) {
 	const forecastFeelsLike = [];
 	const forecastTime = [];
 	var clothesTemp = 0;
-	var forecastCount = Math.floor((24 - hourNow) / 3);
+	var forecastCount = Math.floor((24 - hourNow) / 3) > 0 ? Math.floor((24 - hourNow) / 3) : 1;
 	
 	for (let i = 0; i < forecastCount; i++) {
 		forecastTemp.push(forecast.list[i].main.temp);
