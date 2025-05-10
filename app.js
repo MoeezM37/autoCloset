@@ -45,7 +45,7 @@ async function getWeather(location) {
 		const weatherData = await weatherResponse.json();
 		
 		const forecastResponse = await fetch(
-			`https://api.openweathermap.org/data/2.5/forecast?lat=${locationLat}&lon=${locationLon}&units=metric&cnt=6&appid=${API_KEY}`
+			`https://api.openweathermap.org/data/2.5/forecast?lat=${locationLat}&lon=${locationLon}&units=metric&cnt=8&appid=${API_KEY}`
 		);
 		
 		if (!forecastResponse.ok) throw new Error('Weather service unavailable');
@@ -155,7 +155,7 @@ function showResult(weather, forecast) {
 function getClothingRecommendation(temp, monthDay, weather) {
 	
 	var shoes;
-	var jacket = 'None';
+	var jacket = 'No jacket';
 	var bottoms = 'Jeans';
 	var tops = 'T-shirt and shirt'; 
 	var headwear = 'Cap';
@@ -166,13 +166,13 @@ function getClothingRecommendation(temp, monthDay, weather) {
 		shoes = 'Winter boots';
 		jacket = 'Camo winter jacket';
 	} else {
-		if ([12,1,2].includes(month)) {
+		if ([11,12,1].includes(month)) {
 			shoes = 'Red high-top sneakers';
-		} else if ([3,4,5].includes(month)) {
+		} else if ([2,3,4].includes(month)) {
 			shoes = 'Blue shoes';
-		} else if ([6,7,8].includes(month)) {
+		} else if ([5,6,7].includes(month)) {
 			shoes = 'Green high-top shoes';
-		} else if ([9,10,11].includes(month)) {
+		} else if ([8,9,10].includes(month)) {
 			shoes = 'Grey sneakers';
 		}
 		
@@ -199,7 +199,7 @@ function getClothingRecommendation(temp, monthDay, weather) {
 		headwear = 'Beanie';
 	}
 	
-	if (temp < 11) {
+	if (temp < 13) {
 		tops = 'Sweater, sweatshirt, and hoodie';
 		bottoms = 'Jeans and heavy leggings';
 	} else if (temp < 18) {
@@ -208,11 +208,11 @@ function getClothingRecommendation(temp, monthDay, weather) {
 	}
 	
 	return `<table>
-			<tr><td class="tdRight tdBottom"><i>Headwear:</i>&emsp;</td><td class="tdBottom">${headwear}</td></tr>
-			<tr><td class="tdRight tdBottom"><i>Top:</i>&emsp;</td><td class="tdBottom">${tops}</td></tr>
-			<tr><td class="tdRight tdBottom"><i>Jacket:</i>&emsp;</td><td class="tdBottom">${jacket}</td></tr>
-			<tr><td class="tdRight tdBottom"><i>Bottoms:</i>&emsp;</td><td class="tdBottom">${bottoms}</td></tr>
-			<tr><td class="tdRight"><i>Shoes:</i>&emsp;</td><td>${shoes}</td></tr>
+			<tr><td class="tdBottom">${headwear}</td></tr>
+			<tr><td class="tdBottom">${jacket}</td></tr>
+			<tr><td class="tdBottom">${tops}</td></tr>
+			<tr><td class="tdBottom">${bottoms}</td></tr>
+			<tr><td>${shoes}</td></tr>
 			</table>`;
 }
 
