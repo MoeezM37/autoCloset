@@ -11,7 +11,7 @@ const yearNow = dateNow.getFullYear();
 const hourNow = dateNow.getHours();
 const AMPM = hourNow >= 12 ? 'PM' : 'AM'
 const minuteNow = String(dateNow.getMinutes()).padStart(2, '0');
-const hourAMPMNow = hourNow == 0 ? 12 : hourNow % 12;
+const hourAMPMNow = (hourNow == 0 || hourNow == 12) ? 12 : hourNow % 12;
 const monthDayNow = monthNow * 100 + dayNow;
 
 async function getWeather(location) {
@@ -69,14 +69,13 @@ function getCurrentLocation() {
 	navigator.geolocation.getCurrentPosition(
 		async position => {
 			try {
-				debugger;
 				const weatherResponse = await fetch(
 					`https://api.openweathermap.org/data/2.5/weather?lat=${position.coords.latitude}&lon=${position.coords.longitude}&units=metric&appid=${API_KEY}`
 				);
 				const weatherData = await weatherResponse.json();
 				
 				const forecastResponse = await fetch(
-					`https://api.openweathermap.org/data/2.5/forecast?lat=${position.coords.latitude}&lon=${position.coords.longitude}&units=metric&cnt=6&appid=${API_KEY}`
+					`https://api.openweathermap.org/data/2.5/forecast?lat=${position.coords.latitude}&lon=${position.coords.longitude}&units=metric&cnt=8&appid=${API_KEY}`
 				);
 				const forecastData = await forecastResponse.json();
 				
@@ -92,6 +91,8 @@ function getCurrentLocation() {
 
 function showResult(weather, forecast) {
 	
+	debugger;
+	
 	const currentTemp = weather.main.temp;
 	const feelsLikeTemp = weather.main.feels_like;
 	const weatherTextMain = weather.weather[0].main;
@@ -103,18 +104,37 @@ function showResult(weather, forecast) {
 	const forecastIcon = [];
 	const forecastFeelsLike = [];
 	const forecastTime = [];
-	var clothesTemp = 0;
-	var forecastCount = Math.floor((24 - hourNow) / 3) > 0 ? Math.floor((24 - hourNow) / 3) : 1;
+	var clothesTemp = feelsLikeTemp;
 	
-	for (let i = 0; i < forecastCount; i++) {
+	for (let i = 0; i < 8; i++) {
 		forecastTemp.push(forecast.list[i].main.temp);
 		forecastIcon.push(forecast.list[i].weather[0].icon);
 		forecastFeelsLike.push(forecast.list[i].main.feels_like);
 		forecastTime.push(forecast.list[i].dt_txt);
-		
-		clothesTemp = clothesTemp + forecastFeelsLike[i];
 	}
 	
+	var forecastContent = [
+		[
+			`${currentTemp.toFixed(1)}&deg`, 
+			`<img src="https://openweathermap.org/img/wn/${weatherIcon}.png"></img>`,
+			`Feels like ${feelsLikeTemp.toFixed(1)}&deg`,
+			'Now'
+		]
+	];
+	for (let j = 0; j < 8; j++) {
+		if (new Date(forecastTime[j]).getHours() > hourNow) {
+			forecastContent.push([
+				`${forecastTemp[j].toFixed(1)}&deg`,
+				`<img src="https://openweathermap.org/img/wn/${forecastIcon[j]}.png"></img>`,
+				`Feels like ${forecastFeelsLike[j].toFixed(1)}&deg`,
+				`${new Date(forecastTime[j]).toLocaleString('en-US', { hour: 'numeric', hour12: true})}`
+			]);
+			clothesTemp = clothesTemp + forecastFeelsLike[j];
+		}
+		
+	}
+	
+	var forecastCount = forecastContent.length;
 	clothesTemp = clothesTemp / forecastCount;
 	
 	const clothes = getClothingRecommendation(clothesTemp, monthDayNow, weatherTextMain);
@@ -132,22 +152,6 @@ function showResult(weather, forecast) {
 	
 	document.getElementById('forecastDiv').style.visibility = "visible";
 	
-	var forecastContent = [
-		[
-			`${currentTemp.toFixed(1)}&deg`, 
-			`<img src="https://openweathermap.org/img/wn/${weatherIcon}.png"></img>`,
-			`Feels like ${feelsLikeTemp.toFixed(1)}&deg`,
-			'Now'
-		]
-	];
-	for (let j = 0; j < forecastCount; j++) {
-		forecastContent.push([
-			`${forecastTemp[j].toFixed(1)}&deg`,
-			`<img src="https://openweathermap.org/img/wn/${forecastIcon[j]}.png"></img>`,
-			`Feels like ${forecastFeelsLike[j].toFixed(1)}&deg`,
-			`${new Date(forecastTime[j]).toLocaleString('en-US', { hour: 'numeric', hour12: true})}`
-		]);
-	}
 	
 	createForecastGrid(forecastContent);
 }
@@ -156,27 +160,78 @@ function getClothingRecommendation(temp, monthDay, weather) {
 	
 	var shoes;
 	var jacket = 'No jacket';
-	var bottoms = 'Jeans';
-	var tops = 'T-shirt and shirt'; 
+	var bottoms = 'Pants';
+	var tops = 'T-shirt'; 
 	var headwear = 'Cap';
 	
-	const month = Math.floor(monthDay / 100)
-	
-	if (temp < 5 || weather == 'Snow') {
+	if (temp < 4 || weather == 'Snow') {
 		shoes = 'Winter boots';
 		jacket = 'Camo winter jacket';
+		bottoms = 'Pants with heavy leggings';
+		tops = 'Sweater';
+		headwear = 'Beanie';
 	} else {
-		if ([11,12,1].includes(month)) {
-			shoes = 'Red high-top sneakers';
-		} else if ([2,3,4].includes(month)) {
+		if (monthDay >= 1109 || monthDay <= 120) {
+			shoes = 'Black and white shoes';
+		} else if (monthDay >= 121 && monthDay <= 403) {
+			shoes = 'Red shoes';
+		} else if (monthDay >= 404 && monthDay <= 615) {
+			shoes = 'Green shoes';
+		} else if (monthDay >= 616 && monthDay <= 827) {
 			shoes = 'Blue shoes';
-		} else if ([5,6,7].includes(month)) {
-			shoes = 'Green high-top shoes';
-		} else if ([8,9,10].includes(month)) {
-			shoes = 'Grey sneakers';
+		} else if (monthDay >= 828 && monthDay <= 1108) {
+			shoes = 'Grey shoes';
 		}
 		
-		if (temp < 16) {
+		if (temp < 4.48) {
+			jacket = 'Heavy jacket';
+			bottoms = 'Pants with heavy leggings';
+			tops = 'Hoodie';
+		} else if (temp < 6.24) {
+			jacket = 'Heavy jacket';
+			bottoms = 'Pants with light leggings';
+			tops = 'Sweater';
+		} else if (temp < 6.72) {
+			jacket = 'Heavy jacket';
+			bottoms = 'Pants with light leggings';
+			tops = 'Hoodie';
+		} else if (temp < 7.51) {
+			jacket = 'Heavy jacket';
+			bottoms = 'Pants with heavy leggings';
+			tops = 'Sweatshirt';
+		} else if (temp < 9.75) {
+			jacket = 'Heavy jacket';
+			bottoms = 'Pants with light leggings';
+			tops = 'Sweatshirt';
+		} else if (temp < 10.52) {
+			bottoms = 'Pants with heavy leggings';
+			tops = 'Sweater';
+		} else if (temp < 11.00) {
+			bottoms = 'Pants with heavy leggings';
+			tops = 'Hoodie';
+		} else if (temp < 12.76) {
+			bottoms = 'Pants with light leggings';
+			tops = 'Sweater';
+		} else if (temp < 13.12) {
+			jacket = 'Heavy jacket';
+			tops = 'Sweatshirt';
+		} else if (temp < 13.24) {
+			bottoms = 'Pants with light leggings';
+			tops = 'Hoodie';
+		} else if (temp < 14.03) {
+			bottoms = 'Pants with heavy leggings';
+			tops = 'Sweatshirt';
+		} else if (temp < 16.27) {
+			bottoms = 'Pants with light leggings';
+			tops = 'Sweatshirt';
+		} else if (temp < 16.63) {
+			jacket = 'Light jacket';
+			bottoms = 'Pants with light leggings';
+		} else if (temp < 20) {
+			jacket = 'Light jacket';
+		}
+		
+		if (jacket == 'Heavy jacket') {
 			if (monthDay >= 622 && monthDay <= 1013) {
 				jacket = 'Dark green jacket';
 			} else if (monthDay >= 1014 && monthDay <= 1220) {
@@ -186,25 +241,13 @@ function getClothingRecommendation(temp, monthDay, weather) {
 			} else if (monthDay >= 227 && monthDay <= 621) {
 				jacket = 'Beige jacket';
 			}
-		} else if (temp < 20) {
+		} else if (jacket == 'Light jacket') {
 			if (monthDay >= 321 && monthDay <= 920) {
 				jacket = 'Green light jacket';
 			} else if (monthDay >= 921 || monthDay <= 320) {
 				jacket = 'Blue light jacket';
 			}
 		}
-	}
-	
-	if (temp < 9) {
-		headwear = 'Beanie';
-	}
-	
-	if (temp < 13) {
-		tops = 'Sweater, sweatshirt, and hoodie';
-		bottoms = 'Jeans and heavy leggings';
-	} else if (temp < 18) {
-		tops = 'Sweatshirt and hoodie';
-		bottoms = 'Jeans and light leggings';
 	}
 	
 	return `<table>
