@@ -153,6 +153,12 @@ td {
 	padding-bottom: 1vh;
 }
 
+#avgFeelsLikeDiv {
+	font-size: 2.11vh;
+	text-align: center;
+	padding-bottom: 1vh;
+}
+
 #currentWeatherIcon {
 	height: 100%;
 	visibility: hidden;

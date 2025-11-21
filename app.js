@@ -9,7 +9,7 @@ const dayNow = dateNow.getDate();
 const dayNameNow = dateNow.toLocaleString('default', { weekday: 'long' });
 const yearNow = dateNow.getFullYear();
 const hourNow = dateNow.getHours();
-const AMPM = hourNow >= 12 ? 'PM' : 'AM'
+const AMPM = hourNow >= 12 ? 'PM' : 'AM';
 const minuteNow = String(dateNow.getMinutes()).padStart(2, '0');
 const hourAMPMNow = (hourNow == 0 || hourNow == 12) ? 12 : hourNow % 12;
 const monthDayNow = monthNow * 100 + dayNow;
@@ -142,6 +142,7 @@ function showResult(weather, forecast) {
 	document.getElementById('currentWeatherDiv').style.visibility = "visible";
 	document.getElementById('locationDiv').innerHTML = `${locationName}`;
 	document.getElementById('dateDiv').innerHTML = `${dayNameNow}, ${monthNameNow} ${dayNow}, ${yearNow}<br>${hourAMPMNow}:${minuteNow} ${AMPM}`;
+	document.getElementById('avgFeelsLikeDiv').innerHTML = `Feels like ${clothesTemp.toFixed(2)}&deg on average`;
 	document.getElementById('weatherTextDiv').innerHTML = `<p id="weatherTextMain">${weatherTextMain}</p><p id="weatherTextDesc">${weatherTextDesc}</p>`;
 	document.getElementById('currentTemp').innerHTML = `<b>${currentTemp.toFixed(1)}</b>`;
 	document.getElementById('currentWeatherIcon').src = "https://openweathermap.org/img/wn/" + weatherIcon + "@2x.png";
@@ -166,9 +167,9 @@ function getClothingRecommendation(temp, monthDay, weather) {
 	
 	if (temp < 4 || weather == 'Snow') {
 		shoes = 'Winter boots';
-		jacket = 'Camo winter jacket';
+		jacket = 'Brown winter jacket';
 		bottoms = 'Pants with heavy leggings';
-		tops = 'Sweater';
+		tops = 'Sweater / Hoodie';
 		headwear = 'Beanie';
 	} else {
 		if (monthDay >= 1109 || monthDay <= 120) {
@@ -183,51 +184,56 @@ function getClothingRecommendation(temp, monthDay, weather) {
 			shoes = 'Grey shoes';
 		}
 		
-		if (temp < 4.48) {
+		if (temp < 4.94) {
 			jacket = 'Heavy jacket';
 			bottoms = 'Pants with heavy leggings';
-			tops = 'Hoodie';
-		} else if (temp < 6.24) {
-			jacket = 'Heavy jacket';
-			bottoms = 'Pants with light leggings';
-			tops = 'Sweater';
-		} else if (temp < 6.72) {
-			jacket = 'Heavy jacket';
-			bottoms = 'Pants with light leggings';
-			tops = 'Hoodie';
-		} else if (temp < 7.51) {
+			tops = 'Hoodie / Sweater';
+		} else if (temp < 6.92) {
 			jacket = 'Heavy jacket';
 			bottoms = 'Pants with heavy leggings';
-			tops = 'Sweatshirt';
-		} else if (temp < 9.75) {
+			tops = 'Sweater / Hoodie';
+		} else if (temp < 8.91) {
+			jacket = 'Heavy jacket / Hoodie';
+			bottoms = 'Pants with heavy leggings';
+			tops = 'Sweatshirt / Hoodie';
+		} else if (temp < 10.17) {
 			jacket = 'Heavy jacket';
 			bottoms = 'Pants with light leggings';
-			tops = 'Sweatshirt';
-		} else if (temp < 10.52) {
+			tops = 'Sweater / Hoodie';
+		} else if (temp < 11.26) {
+			jacket = 'Hoodie / Heavy jacket';
 			bottoms = 'Pants with heavy leggings';
-			tops = 'Sweater';
-		} else if (temp < 11.00) {
+			tops = 'Hoodie / Sweatshirt';
+		} else if (temp < 12.16) {
+			jacket = 'Heavy jacket / Hoodie';
+			bottoms = 'Pants with light leggings';
+			tops = 'Sweatshirt / Hoodie';
+		} else if (temp < 13.78) {
+			jacket = 'Heavy jacket / Hoodie';
+			tops = 'Sweatshirt / Hoodie';
+		} else if (temp < 14.50) {
+			jacket = 'Hoodie / Heavy jacket';
+			bottoms = 'Pants with light leggings';
+			tops = 'Hoodie / Sweatshirt';
+		} else if (temp < 15.23) {
+			jacket = 'No jacket / Heavy jacket';
 			bottoms = 'Pants with heavy leggings';
-			tops = 'Hoodie';
-		} else if (temp < 12.76) {
+			tops = 'Sweatshirt / T-shirt';
+		} else if (temp < 16.49) {
+			jacket = 'Hoodie / Heavy jacket';
+			bottoms = 'Pants / Pants with light leggings';
+			tops = 'Hoodie / Sweatshirt';
+		} else if (temp < 18.47) {
+			jacket = 'No jacket / Heavy jacket';
 			bottoms = 'Pants with light leggings';
-			tops = 'Sweater';
-		} else if (temp < 13.12) {
-			jacket = 'Heavy jacket';
-			tops = 'Sweatshirt';
-		} else if (temp < 13.24) {
-			bottoms = 'Pants with light leggings';
-			tops = 'Hoodie';
-		} else if (temp < 14.03) {
-			bottoms = 'Pants with heavy leggings';
-			tops = 'Sweatshirt';
-		} else if (temp < 16.27) {
-			bottoms = 'Pants with light leggings';
-			tops = 'Sweatshirt';
-		} else if (temp < 16.63) {
+			tops = 'Sweatshirt / T-shirt';
+		} else if (temp < 19.38) {
 			jacket = 'Light jacket';
 			bottoms = 'Pants with light leggings';
-		} else if (temp < 20) {
+		} else if (temp < 20.10) {
+			jacket = 'No jacket / Light jacket';
+			tops = 'Sweatshirt / T-shirt';
+		} else if (temp < 21) {
 			jacket = 'Light jacket';
 		}
 		
